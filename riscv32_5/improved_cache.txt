@@ -1,0 +1,213 @@
+////////////////////////////////////////////////////////////////////
+// Modify SPI read/write to handle dword addresses.
+// bit 17: which chip. (0: PIN_CS0, 1: PIN_CS1)
+// bit 16: which bank. (0: bank0,   1: bank1  )
+//
+// Chipselect for chip0 is connected to PIN_CS0
+// Chipselect for chip1 is connected to PIN_CS1
+////////////////////////////////////////////////////////////////////
+
+byte spi_read_byte_quad(dword addr)
+{
+  byte chip = (addr & 0x00020000) >> 17;		// use bit17 for which chip.
+  byte bank = (addr & 0x00010000) >> 16;		// use bit 16 which bank.
+  byte hh   = (addr & 0x0000FF00) >> 8;
+  byte ll   = (addr & 0x000000FF);
+  byte data;
+
+  if (chip == 0 )
+	digitalWrite2f(PIN_CS0, LOW);
+  else
+	digitalWrite2f(PIN_CS1, LOW);
+
+  spi_send_quad(0x03);
+  spi_send_quad(bank & 0x01);
+  spi_send_quad(hh);
+  spi_send_quad(ll);
+  /* dummy read */ spi_receive_quad();
+  data = spi_receive_quad();
+
+  if (chip == 0 )
+	digitalWrite2f(PIN_CS0, HIGH);
+  else
+	digitalWrite2f(PIN_CS1, HIGH);
+
+  // Serial.print("SPI_Read: "); Serial.print(data, HEX); Serial.print(" <- "); Serial.println(addr, HEX);
+  return data;
+}
+
+
+void spi_write_byte_quad(dword addr, byte data)
+{
+  byte chip = (addr & 0x00020000) >> 17;		// use bit17 for which chip.
+  byte bank = (addr & 0x00010000) >> 16;		// use bit 16 which bank.
+  byte hh   = (addr & 0x0000FF00) >> 8;
+  byte ll   = (addr & 0x000000FF);
+
+  // Serial.print("SPI_Write: "); Serial.print(data, HEX); Serial.print(" -> "); Serial.println(addr, HEX);
+
+  if (chip == 0 )
+	digitalWrite2f(PIN_CS0, LOW);
+  else
+	digitalWrite2f(PIN_CS1, LOW);
+
+  spi_send_quad(0x02);
+  spi_send_quad(bank & 0x01);
+  spi_send_quad(hh);
+  spi_send_quad(ll);
+  spi_send_quad(data);
+
+  if (chip == 0 )
+	digitalWrite2f(PIN_CS0, HIGH);
+  else
+	digitalWrite2f(PIN_CS1, HIGH);
+}
+
+// WARNING:
+// Make sure buffer (*ptr) does not cross 256 byte boundaries.
+// 
+void spi_read_byte_array_quad(dword addr, word cnt, byte *ptr)
+{
+  byte chip = (addr & 0x00020000) >> 17;		// use bit17 for which chip.
+  byte bank = (addr & 0x00010000) >> 16;		// use bit 16 which bank.
+  byte hh   = (addr & 0x0000FF00) >> 8;
+  byte ll   = (addr & 0x000000FF);
+  byte data;
+  
+  if (chip == 0 )
+	digitalWrite2f(PIN_CS0, LOW);
+  else
+	digitalWrite2f(PIN_CS1, LOW);
+
+  spi_send_quad(0x03);
+  spi_send_quad(bank & 0x01);
+  spi_send_quad(hh);
+  spi_send_quad(ll);
+  /* dummy read */ spi_receive_quad();
+  while (cnt--) 
+    *ptr++ = spi_receive_quad();
+
+  if (chip == 0 )
+	digitalWrite2f(PIN_CS0, HIGH);
+  else
+	digitalWrite2f(PIN_CS1, HIGH);
+}
+
+// WARNING:
+// Make sure buffer (*ptr) does not cross 256 byte boundaries.
+// 
+inline __attribute__((always_inline))
+void spi_write_byte_array_quad(dword addr, word cnt, byte *ptr)
+{
+  byte chip = (addr & 0x00020000) >> 17;		// use bit17 for which chip.
+  byte bank = (addr & 0x00010000) >> 16;		// use bit 16 which bank.
+  byte hh   = (addr & 0x0000FF00) >> 8;
+  byte ll   = (addr & 0x000000FF);
+  
+  if (chip == 0 )
+	digitalWrite2f(PIN_CS0, LOW);
+  else
+	digitalWrite2f(PIN_CS1, LOW);
+
+  spi_send_quad(0x02);
+  spi_send_quad(bank & 0x01);
+  spi_send_quad(hh);
+  spi_send_quad(ll);
+  while (cnt--)
+  {
+    Serial.print("+"); Serial.print(*ptr, HEX); 
+    spi_send_quad(*ptr++);
+  }
+  Serial.println("");
+
+  if (chip == 0 )
+	digitalWrite2f(PIN_CS0, HIGH);
+  else
+	digitalWrite2f(PIN_CS1, HIGH);
+}
+
+
+
+////////////////////////////////////////////////////////////////////
+// Cache for SPI-RAM
+////////////////////////////////////////////////////////////////////
+
+
+word cachePage[16];	// byte -> word
+byte cacheRAM[16][256]; // no change
+
+// Add support for 24bit addresses
+// Let's say we need to access memory location: 0x561234
+// 2: indicated which cacheRAM variable to use. cacheRAM[2][..]
+// 561: will be saved into cachePage[5] = 0x0561 so we know the
+//      RAMdata came from 0x5612xx.
+// 34: used to access data within cache, i.e. cacheRAM[2][34]
+
+inline __attribute__((always_inline))
+byte cache_read_byte(dword addr)            // change to dword, 0x00561234
+{
+  byte a = (addr & 0x00FFFF00) >> 8;        // a = 0x5612
+  byte p = a >> 4;                          // p = 0x0561
+  byte n = a & 0x0F;                        // n = 0x0002
+  byte r = (addr & 0x00FF);                 // r = 0x34
+  
+  // Serial.print("cache addr: "); Serial.print(addr, HEX);
+
+  if (cachePage[n] == p)		   // n = 0x0002
+  {
+    // Cache Hit !!!
+    return cacheRAM[n][r];
+  }
+  else
+  {
+    // Need to fill cache from SPI-RAM
+    digitalWrite2f(LED2, HIGH);
+    spi_read_byte_array_quad(0, addr & 0xFFFFFF00, 256, cacheRAM[n]);
+    cachePage[n] = p;
+    digitalWrite2f(LED2, LOW);
+    return cacheRAM[n][r];
+  }
+}
+
+inline __attribute__((always_inline))
+void cache_write_byte(dword addr, byte din)   // change to dword, 0x00561234
+{
+  byte a = (addr & 0x00FFFF00) >> 8;          // a = 0x5612
+  byte p = a >> 4;                            // p = 0x0561
+  byte n = a & 0x0F;                          // n = 0x0002
+  byte r = (addr & 0x00FF);                   // r = 0x34
+
+  
+  if (cachePage[n] == p)
+  {
+    // Cache Hit !!!
+    cacheRAM[n][r] = din;
+    spi_write_byte_quad(0, addr, din);        // Write-thru cache :)
+    return;
+  }
+  else
+  {
+    // Need to fill cache from SPI-RAM
+    digitalWrite2f(LED1, HIGH);
+    spi_write_byte_quad(0, addr, din);
+    spi_read_byte_array_quad(0, addr & 0xFFFFFF00, 256, cacheRAM[n]);
+    cachePage[n] = p;
+    digitalWrite2f(LED1, LOW);
+    return;
+  }
+}
+
+void cache_init()
+{
+  // Initialize cache from spi-ram
+  for(int n=0; n<16; n++)
+  {
+    spi_read_byte_array_quad(n << 8, 256, cacheRAM[n]);
+    cachePage[n] = 0;
+  }
+  Serial.println("RAM Cache - Initialized.");
+
+}
+
+
+

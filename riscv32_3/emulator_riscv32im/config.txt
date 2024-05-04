@@ -1,0 +1,10 @@
+base_text        :0x00000000;   
+base_text_limit  :0x0007d000;
+base_ram         :0x0007d000;
+base_ram_limit   :0x000fa000;
+base_sp          :0x000fc70f;   
+base_gp          :0x000fc710;
+ram_size         :0x000fc711;
+uart             :0x00300000;
+next             :0;
+debug_inst       :0;

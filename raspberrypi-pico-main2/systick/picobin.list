@@ -1,0 +1,455 @@
+
+picobin.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <reset>:
+20000000:	4802      	ldr	r0, [pc, #8]	; (2000000c <reset+0xc>)
+20000002:	4685      	mov	sp, r0
+20000004:	f000 f8ac 	bl	20000160 <init>
+20000008:	e7fe      	b.n	20000008 <reset+0x8>
+2000000a:	46c0      	nop			; (mov r8, r8)
+2000000c:	20001000 	andcs	r1, r0, r0
+20000010:	46c0      	nop			; (mov r8, r8)
+20000012:	46c0      	nop			; (mov r8, r8)
+20000014:	46c0      	nop			; (mov r8, r8)
+20000016:	46c0      	nop			; (mov r8, r8)
+20000018:	46c0      	nop			; (mov r8, r8)
+2000001a:	46c0      	nop			; (mov r8, r8)
+2000001c:	46c0      	nop			; (mov r8, r8)
+2000001e:	46c0      	nop			; (mov r8, r8)
+20000020:	46c0      	nop			; (mov r8, r8)
+20000022:	46c0      	nop			; (mov r8, r8)
+20000024:	46c0      	nop			; (mov r8, r8)
+20000026:	46c0      	nop			; (mov r8, r8)
+20000028:	46c0      	nop			; (mov r8, r8)
+2000002a:	46c0      	nop			; (mov r8, r8)
+2000002c:	46c0      	nop			; (mov r8, r8)
+2000002e:	46c0      	nop			; (mov r8, r8)
+20000030:	46c0      	nop			; (mov r8, r8)
+20000032:	46c0      	nop			; (mov r8, r8)
+20000034:	46c0      	nop			; (mov r8, r8)
+20000036:	46c0      	nop			; (mov r8, r8)
+20000038:	46c0      	nop			; (mov r8, r8)
+2000003a:	46c0      	nop			; (mov r8, r8)
+2000003c:	46c0      	nop			; (mov r8, r8)
+2000003e:	46c0      	nop			; (mov r8, r8)
+	...
+
+20000100 <xosc_init>:
+20000100:	23aa      	movs	r3, #170	; 0xaa
+20000102:	4a06      	ldr	r2, [pc, #24]	; (2000011c <xosc_init+0x1c>)
+20000104:	011b      	lsls	r3, r3, #4
+20000106:	6013      	str	r3, [r2, #0]
+20000108:	232f      	movs	r3, #47	; 0x2f
+2000010a:	60d3      	str	r3, [r2, #12]
+2000010c:	6811      	ldr	r1, [r2, #0]
+2000010e:	4b04      	ldr	r3, [pc, #16]	; (20000120 <xosc_init+0x20>)
+20000110:	430b      	orrs	r3, r1
+20000112:	6013      	str	r3, [r2, #0]
+20000114:	6853      	ldr	r3, [r2, #4]
+20000116:	2b00      	cmp	r3, #0
+20000118:	dafc      	bge.n	20000114 <xosc_init+0x14>
+2000011a:	4770      	bx	lr
+2000011c:	40024000 	andmi	r4, r2, r0
+20000120:	00fab000 	rscseq	fp, sl, r0
+
+20000124 <xosc_disable>:
+20000124:	4a05      	ldr	r2, [pc, #20]	; (2000013c <xosc_disable+0x18>)
+20000126:	4906      	ldr	r1, [pc, #24]	; (20000140 <xosc_disable+0x1c>)
+20000128:	6813      	ldr	r3, [r2, #0]
+2000012a:	4019      	ands	r1, r3
+2000012c:	4b05      	ldr	r3, [pc, #20]	; (20000144 <xosc_disable+0x20>)
+2000012e:	430b      	orrs	r3, r1
+20000130:	6013      	str	r3, [r2, #0]
+20000132:	6853      	ldr	r3, [r2, #4]
+20000134:	2b00      	cmp	r3, #0
+20000136:	dbfc      	blt.n	20000132 <xosc_disable+0xe>
+20000138:	4770      	bx	lr
+2000013a:	46c0      	nop			; (mov r8, r8)
+2000013c:	40024000 	andmi	r4, r2, r0
+20000140:	00fff000 	rscseq	pc, pc, r0
+20000144:	00d1e000 	sbcseq	lr, r1, r0
+
+20000148 <xosc_dormant>:
+20000148:	4a03      	ldr	r2, [pc, #12]	; (20000158 <xosc_dormant+0x10>)
+2000014a:	4b04      	ldr	r3, [pc, #16]	; (2000015c <xosc_dormant+0x14>)
+2000014c:	6093      	str	r3, [r2, #8]
+2000014e:	6853      	ldr	r3, [r2, #4]
+20000150:	2b00      	cmp	r3, #0
+20000152:	dafc      	bge.n	2000014e <xosc_dormant+0x6>
+20000154:	4770      	bx	lr
+20000156:	46c0      	nop			; (mov r8, r8)
+20000158:	40024000 	andmi	r4, r2, r0
+2000015c:	636f6d61 	cmnvs	pc, #6208	; 0x1840
+
+20000160 <init>:
+20000160:	b510      	push	{r4, lr}
+20000162:	f7ff ffcd 	bl	20000100 <xosc_init>
+20000166:	2288      	movs	r2, #136	; 0x88
+20000168:	4b0c      	ldr	r3, [pc, #48]	; (2000019c <init+0x3c>)
+2000016a:	0112      	lsls	r2, r2, #4
+2000016c:	601a      	str	r2, [r3, #0]
+2000016e:	2020      	movs	r0, #32
+20000170:	f000 f920 	bl	200003b4 <reset_release_wait>
+20000174:	2080      	movs	r0, #128	; 0x80
+20000176:	0040      	lsls	r0, r0, #1
+20000178:	f000 f91c 	bl	200003b4 <reset_release_wait>
+2000017c:	2105      	movs	r1, #5
+2000017e:	2019      	movs	r0, #25
+20000180:	f000 f810 	bl	200001a4 <gpio_init>
+20000184:	2019      	movs	r0, #25
+20000186:	2101      	movs	r1, #1
+20000188:	f000 f822 	bl	200001d0 <gpio_dir>
+2000018c:	f000 f888 	bl	200002a0 <nvic_init>
+20000190:	f000 f8e8 	bl	20000364 <systick_init>
+20000194:	4802      	ldr	r0, [pc, #8]	; (200001a0 <init+0x40>)
+20000196:	f000 f8f1 	bl	2000037c <systick_set>
+2000019a:	e7fe      	b.n	2000019a <init+0x3a>
+2000019c:	40008048 	andmi	r8, r0, r8, asr #32
+200001a0:	005b8d7f 	subseq	r8, fp, pc, ror sp
+
+200001a4 <gpio_init>:
+200001a4:	4a08      	ldr	r2, [pc, #32]	; (200001c8 <gpio_init+0x24>)
+200001a6:	00c3      	lsls	r3, r0, #3
+200001a8:	4694      	mov	ip, r2
+200001aa:	4a08      	ldr	r2, [pc, #32]	; (200001cc <gpio_init+0x28>)
+200001ac:	4463      	add	r3, ip
+200001ae:	4694      	mov	ip, r2
+200001b0:	22c0      	movs	r2, #192	; 0xc0
+200001b2:	6059      	str	r1, [r3, #4]
+200001b4:	0083      	lsls	r3, r0, #2
+200001b6:	4463      	add	r3, ip
+200001b8:	605a      	str	r2, [r3, #4]
+200001ba:	2301      	movs	r3, #1
+200001bc:	22d0      	movs	r2, #208	; 0xd0
+200001be:	4083      	lsls	r3, r0
+200001c0:	0612      	lsls	r2, r2, #24
+200001c2:	6293      	str	r3, [r2, #40]	; 0x28
+200001c4:	4770      	bx	lr
+200001c6:	46c0      	nop			; (mov r8, r8)
+200001c8:	40014000 	andmi	r4, r1, r0
+200001cc:	4001c000 	andmi	ip, r1, r0
+
+200001d0 <gpio_dir>:
+200001d0:	2301      	movs	r3, #1
+200001d2:	22d0      	movs	r2, #208	; 0xd0
+200001d4:	4083      	lsls	r3, r0
+200001d6:	0612      	lsls	r2, r2, #24
+200001d8:	2900      	cmp	r1, #0
+200001da:	d107      	bne.n	200001ec <gpio_dir+0x1c>
+200001dc:	6293      	str	r3, [r2, #40]	; 0x28
+200001de:	4b07      	ldr	r3, [pc, #28]	; (200001fc <gpio_dir+0x2c>)
+200001e0:	0080      	lsls	r0, r0, #2
+200001e2:	469c      	mov	ip, r3
+200001e4:	23c0      	movs	r3, #192	; 0xc0
+200001e6:	4460      	add	r0, ip
+200001e8:	6043      	str	r3, [r0, #4]
+200001ea:	4770      	bx	lr
+200001ec:	6253      	str	r3, [r2, #36]	; 0x24
+200001ee:	4b03      	ldr	r3, [pc, #12]	; (200001fc <gpio_dir+0x2c>)
+200001f0:	0080      	lsls	r0, r0, #2
+200001f2:	469c      	mov	ip, r3
+200001f4:	2300      	movs	r3, #0
+200001f6:	4460      	add	r0, ip
+200001f8:	6043      	str	r3, [r0, #4]
+200001fa:	e7f6      	b.n	200001ea <gpio_dir+0x1a>
+200001fc:	4001c000 	andmi	ip, r1, r0
+
+20000200 <gpio_set>:
+20000200:	2301      	movs	r3, #1
+20000202:	22d0      	movs	r2, #208	; 0xd0
+20000204:	4083      	lsls	r3, r0
+20000206:	0612      	lsls	r2, r2, #24
+20000208:	2900      	cmp	r1, #0
+2000020a:	d101      	bne.n	20000210 <gpio_set+0x10>
+2000020c:	6193      	str	r3, [r2, #24]
+2000020e:	4770      	bx	lr
+20000210:	6153      	str	r3, [r2, #20]
+20000212:	e7fc      	b.n	2000020e <gpio_set+0xe>
+
+20000214 <gpio_get>:
+20000214:	0002      	movs	r2, r0
+20000216:	2001      	movs	r0, #1
+20000218:	23d0      	movs	r3, #208	; 0xd0
+2000021a:	4090      	lsls	r0, r2
+2000021c:	061b      	lsls	r3, r3, #24
+2000021e:	685b      	ldr	r3, [r3, #4]
+20000220:	4018      	ands	r0, r3
+20000222:	4770      	bx	lr
+
+20000224 <gpio_deinit>:
+20000224:	4a05      	ldr	r2, [pc, #20]	; (2000023c <gpio_deinit+0x18>)
+20000226:	0083      	lsls	r3, r0, #2
+20000228:	4694      	mov	ip, r2
+2000022a:	22c0      	movs	r2, #192	; 0xc0
+2000022c:	4463      	add	r3, ip
+2000022e:	605a      	str	r2, [r3, #4]
+20000230:	2301      	movs	r3, #1
+20000232:	22d0      	movs	r2, #208	; 0xd0
+20000234:	4083      	lsls	r3, r0
+20000236:	0612      	lsls	r2, r2, #24
+20000238:	6293      	str	r3, [r2, #40]	; 0x28
+2000023a:	4770      	bx	lr
+2000023c:	4001c000 	andmi	ip, r1, r0
+
+20000240 <gpio_pullup>:
+20000240:	4b06      	ldr	r3, [pc, #24]	; (2000025c <gpio_pullup+0x1c>)
+20000242:	0080      	lsls	r0, r0, #2
+20000244:	469c      	mov	ip, r3
+20000246:	4460      	add	r0, ip
+20000248:	6843      	ldr	r3, [r0, #4]
+2000024a:	2208      	movs	r2, #8
+2000024c:	2900      	cmp	r1, #0
+2000024e:	d102      	bne.n	20000256 <gpio_pullup+0x16>
+20000250:	4393      	bics	r3, r2
+20000252:	6043      	str	r3, [r0, #4]
+20000254:	4770      	bx	lr
+20000256:	4313      	orrs	r3, r2
+20000258:	e7fb      	b.n	20000252 <gpio_pullup+0x12>
+2000025a:	46c0      	nop			; (mov r8, r8)
+2000025c:	4001c000 	andmi	ip, r1, r0
+
+20000260 <gpio_pulldown>:
+20000260:	4b06      	ldr	r3, [pc, #24]	; (2000027c <gpio_pulldown+0x1c>)
+20000262:	0080      	lsls	r0, r0, #2
+20000264:	469c      	mov	ip, r3
+20000266:	4460      	add	r0, ip
+20000268:	6843      	ldr	r3, [r0, #4]
+2000026a:	2204      	movs	r2, #4
+2000026c:	2900      	cmp	r1, #0
+2000026e:	d102      	bne.n	20000276 <gpio_pulldown+0x16>
+20000270:	4393      	bics	r3, r2
+20000272:	6043      	str	r3, [r0, #4]
+20000274:	4770      	bx	lr
+20000276:	4313      	orrs	r3, r2
+20000278:	e7fb      	b.n	20000272 <gpio_pulldown+0x12>
+2000027a:	46c0      	nop			; (mov r8, r8)
+2000027c:	4001c000 	andmi	ip, r1, r0
+
+20000280 <pendsv_handler>:
+20000280:	4770      	bx	lr
+20000282:	46c0      	nop			; (mov r8, r8)
+
+20000284 <systick_handler>:
+20000284:	2280      	movs	r2, #128	; 0x80
+20000286:	4b02      	ldr	r3, [pc, #8]	; (20000290 <systick_handler+0xc>)
+20000288:	0492      	lsls	r2, r2, #18
+2000028a:	601a      	str	r2, [r3, #0]
+2000028c:	4770      	bx	lr
+2000028e:	46c0      	nop			; (mov r8, r8)
+20000290:	d000001c 	andle	r0, r0, ip, lsl r0
+
+20000294 <svccall_handler>:
+20000294:	4770      	bx	lr
+20000296:	46c0      	nop			; (mov r8, r8)
+
+20000298 <nmi_handler>:
+20000298:	4770      	bx	lr
+2000029a:	46c0      	nop			; (mov r8, r8)
+
+2000029c <hardfault_handler>:
+2000029c:	4770      	bx	lr
+2000029e:	46c0      	nop			; (mov r8, r8)
+
+200002a0 <nvic_init>:
+200002a0:	4812      	ldr	r0, [pc, #72]	; (200002ec <nvic_init+0x4c>)
+200002a2:	2200      	movs	r2, #0
+200002a4:	4478      	add	r0, pc
+200002a6:	0001      	movs	r1, r0
+200002a8:	0003      	movs	r3, r0
+200002aa:	b510      	push	{r4, lr}
+200002ac:	4c10      	ldr	r4, [pc, #64]	; (200002f0 <nvic_init+0x50>)
+200002ae:	b082      	sub	sp, #8
+200002b0:	31a8      	adds	r1, #168	; 0xa8
+200002b2:	447c      	add	r4, pc
+200002b4:	c304      	stmia	r3!, {r2}
+200002b6:	428b      	cmp	r3, r1
+200002b8:	d1fc      	bne.n	200002b4 <nvic_init+0x14>
+200002ba:	4a0e      	ldr	r2, [pc, #56]	; (200002f4 <nvic_init+0x54>)
+200002bc:	4b0e      	ldr	r3, [pc, #56]	; (200002f8 <nvic_init+0x58>)
+200002be:	58a2      	ldr	r2, [r4, r2]
+200002c0:	447b      	add	r3, pc
+200002c2:	9201      	str	r2, [sp, #4]
+200002c4:	605a      	str	r2, [r3, #4]
+200002c6:	4a0d      	ldr	r2, [pc, #52]	; (200002fc <nvic_init+0x5c>)
+200002c8:	447a      	add	r2, pc
+200002ca:	609a      	str	r2, [r3, #8]
+200002cc:	4a0c      	ldr	r2, [pc, #48]	; (20000300 <nvic_init+0x60>)
+200002ce:	447a      	add	r2, pc
+200002d0:	60da      	str	r2, [r3, #12]
+200002d2:	4a0c      	ldr	r2, [pc, #48]	; (20000304 <nvic_init+0x64>)
+200002d4:	447a      	add	r2, pc
+200002d6:	62da      	str	r2, [r3, #44]	; 0x2c
+200002d8:	4a0b      	ldr	r2, [pc, #44]	; (20000308 <nvic_init+0x68>)
+200002da:	447a      	add	r2, pc
+200002dc:	639a      	str	r2, [r3, #56]	; 0x38
+200002de:	4a0b      	ldr	r2, [pc, #44]	; (2000030c <nvic_init+0x6c>)
+200002e0:	447a      	add	r2, pc
+200002e2:	63da      	str	r2, [r3, #60]	; 0x3c
+200002e4:	4b0a      	ldr	r3, [pc, #40]	; (20000310 <nvic_init+0x70>)
+200002e6:	6018      	str	r0, [r3, #0]
+200002e8:	b002      	add	sp, #8
+200002ea:	bd10      	pop	{r4, pc}
+200002ec:	00000158 	andeq	r0, r0, r8, asr r1
+200002f0:	00000112 	andeq	r0, r0, r2, lsl r1
+200002f4:	00000000 	andeq	r0, r0, r0
+200002f8:	0000013c 	andeq	r0, r0, ip, lsr r1
+200002fc:	ffffffcd 			; <UNDEFINED> instruction: 0xffffffcd
+20000300:	ffffffcb 			; <UNDEFINED> instruction: 0xffffffcb
+20000304:	ffffffbd 			; <UNDEFINED> instruction: 0xffffffbd
+20000308:	ffffffa3 			; <UNDEFINED> instruction: 0xffffffa3
+2000030c:	ffffffa1 			; <UNDEFINED> instruction: 0xffffffa1
+20000310:	e000ed08 	and	lr, r0, r8, lsl #26
+
+20000314 <nvic_register_irq>:
+20000314:	4b02      	ldr	r3, [pc, #8]	; (20000320 <nvic_register_irq+0xc>)
+20000316:	3010      	adds	r0, #16
+20000318:	0080      	lsls	r0, r0, #2
+2000031a:	447b      	add	r3, pc
+2000031c:	50c1      	str	r1, [r0, r3]
+2000031e:	4770      	bx	lr
+20000320:	000000e2 	andeq	r0, r0, r2, ror #1
+
+20000324 <nvic_enable>:
+20000324:	2301      	movs	r3, #1
+20000326:	4083      	lsls	r3, r0
+20000328:	4a01      	ldr	r2, [pc, #4]	; (20000330 <nvic_enable+0xc>)
+2000032a:	6013      	str	r3, [r2, #0]
+2000032c:	4770      	bx	lr
+2000032e:	46c0      	nop			; (mov r8, r8)
+20000330:	e000e100 	and	lr, r0, r0, lsl #2
+
+20000334 <nvic_disable>:
+20000334:	2301      	movs	r3, #1
+20000336:	4083      	lsls	r3, r0
+20000338:	4a01      	ldr	r2, [pc, #4]	; (20000340 <nvic_disable+0xc>)
+2000033a:	6013      	str	r3, [r2, #0]
+2000033c:	4770      	bx	lr
+2000033e:	46c0      	nop			; (mov r8, r8)
+20000340:	e000e180 	and	lr, r0, r0, lsl #3
+
+20000344 <nvic_setpending>:
+20000344:	2301      	movs	r3, #1
+20000346:	4083      	lsls	r3, r0
+20000348:	4a01      	ldr	r2, [pc, #4]	; (20000350 <nvic_setpending+0xc>)
+2000034a:	6013      	str	r3, [r2, #0]
+2000034c:	4770      	bx	lr
+2000034e:	46c0      	nop			; (mov r8, r8)
+20000350:	e000e200 	and	lr, r0, r0, lsl #4
+
+20000354 <nvic_clearpending>:
+20000354:	2301      	movs	r3, #1
+20000356:	4083      	lsls	r3, r0
+20000358:	4a01      	ldr	r2, [pc, #4]	; (20000360 <nvic_clearpending+0xc>)
+2000035a:	6013      	str	r3, [r2, #0]
+2000035c:	4770      	bx	lr
+2000035e:	46c0      	nop			; (mov r8, r8)
+20000360:	e000e280 	and	lr, r0, r0, lsl #5
+
+20000364 <systick_init>:
+20000364:	2207      	movs	r2, #7
+20000366:	4b01      	ldr	r3, [pc, #4]	; (2000036c <systick_init+0x8>)
+20000368:	601a      	str	r2, [r3, #0]
+2000036a:	4770      	bx	lr
+2000036c:	e000e010 	and	lr, r0, r0, lsl r0
+
+20000370 <systick_deinit>:
+20000370:	2200      	movs	r2, #0
+20000372:	4b01      	ldr	r3, [pc, #4]	; (20000378 <systick_deinit+0x8>)
+20000374:	601a      	str	r2, [r3, #0]
+20000376:	4770      	bx	lr
+20000378:	e000e010 	and	lr, r0, r0, lsl r0
+
+2000037c <systick_set>:
+2000037c:	4b01      	ldr	r3, [pc, #4]	; (20000384 <systick_set+0x8>)
+2000037e:	6058      	str	r0, [r3, #4]
+20000380:	6098      	str	r0, [r3, #8]
+20000382:	4770      	bx	lr
+20000384:	e000e010 	and	lr, r0, r0, lsl r0
+
+20000388 <systick_get>:
+20000388:	4b01      	ldr	r3, [pc, #4]	; (20000390 <systick_get+0x8>)
+2000038a:	6898      	ldr	r0, [r3, #8]
+2000038c:	4770      	bx	lr
+2000038e:	46c0      	nop			; (mov r8, r8)
+20000390:	e000e010 	and	lr, r0, r0, lsl r0
+
+20000394 <reset_set>:
+20000394:	4a02      	ldr	r2, [pc, #8]	; (200003a0 <reset_set+0xc>)
+20000396:	6813      	ldr	r3, [r2, #0]
+20000398:	4318      	orrs	r0, r3
+2000039a:	6010      	str	r0, [r2, #0]
+2000039c:	4770      	bx	lr
+2000039e:	46c0      	nop			; (mov r8, r8)
+200003a0:	4000c000 	andmi	ip, r0, r0
+
+200003a4 <reset_release>:
+200003a4:	4a02      	ldr	r2, [pc, #8]	; (200003b0 <reset_release+0xc>)
+200003a6:	6813      	ldr	r3, [r2, #0]
+200003a8:	4383      	bics	r3, r0
+200003aa:	6013      	str	r3, [r2, #0]
+200003ac:	4770      	bx	lr
+200003ae:	46c0      	nop			; (mov r8, r8)
+200003b0:	4000c000 	andmi	ip, r0, r0
+
+200003b4 <reset_release_wait>:
+200003b4:	4a03      	ldr	r2, [pc, #12]	; (200003c4 <reset_release_wait+0x10>)
+200003b6:	6813      	ldr	r3, [r2, #0]
+200003b8:	4383      	bics	r3, r0
+200003ba:	6013      	str	r3, [r2, #0]
+200003bc:	6893      	ldr	r3, [r2, #8]
+200003be:	4203      	tst	r3, r0
+200003c0:	d0fc      	beq.n	200003bc <reset_release_wait+0x8>
+200003c2:	4770      	bx	lr
+200003c4:	4000c000 	andmi	ip, r0, r0
+
+Disassembly of section .got:
+
+200003c8 <.got>:
+200003c8:	20000000 	andcs	r0, r0, r0
+
+Disassembly of section .got.plt:
+
+200003cc <_GLOBAL_OFFSET_TABLE_>:
+	...
+
+Disassembly of section .bss:
+
+20000400 <vector_table>:
+	...
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00002c41 	andeq	r2, r0, r1, asr #24
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000022 	andeq	r0, r0, r2, lsr #32
+  10:	726f4305 	rsbvc	r4, pc, #335544320	; 0x14000000
+  14:	2d786574 	cfldr64cs	mvdx6, [r8, #-464]!	; 0xfffffe30
+  18:	0600304d 	streq	r3, [r0], -sp, asr #32
+  1c:	094d070c 	stmdbeq	sp, {r2, r3, r8, r9, sl}^
+  20:	14041201 	strne	r1, [r4], #-513	; 0xfffffdff
+  24:	17011501 	strne	r1, [r1, -r1, lsl #10]
+  28:	1a011803 	bne	4603c <reset-0x1ffb9fc4>
+  2c:	Address 0x0000002c is out of bounds.
+
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <reset-0x1ef2f2dc>
+   4:	35312820 	ldrcc	r2, [r1, #-2080]!	; 0xfffff7e0
+   8:	332e363a 			; <UNDEFINED> instruction: 0x332e363a
+   c:	732b312e 			; <UNDEFINED> instruction: 0x732b312e
+  10:	35326e76 	ldrcc	r6, [r2, #-3702]!	; 0xfffff18a
+  14:	39333033 	ldmdbcc	r3!, {r0, r1, r4, r5, ip, sp}
+  18:	7562312d 	strbvc	r3, [r2, #-301]!	; 0xfffffed3
+  1c:	31646c69 	cmncc	r4, r9, ror #24
+  20:	2e362029 	cdpcs	0, 3, cr2, cr6, cr9, {1}
+  24:	20312e33 	eorscs	r2, r1, r3, lsr lr
+  28:	37313032 			; <UNDEFINED> instruction: 0x37313032
+  2c:	30323630 	eorscc	r3, r2, r0, lsr r6
+	...

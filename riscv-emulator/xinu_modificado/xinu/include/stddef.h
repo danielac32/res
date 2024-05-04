@@ -1,0 +1,46 @@
+/* stddef.h */
+
+/* TEMPORARY */
+
+/* Function declaration return types */
+
+/**
+ * @file stddef.h
+ *
+ * Includes standard type definitions and primary constants used across
+ * all aspects of Xinu.
+ *
+ */
+/* Embedded Xinu, Copyright (C) 2009.  All rights reserved. */
+
+#ifndef _STDDEF_H_
+#define _STDDEF_H_
+typedef void exchandler;        /**< exception procedure                */
+typedef int message;            /**< message passing content            */
+
+/* macro to get offset to struct members */
+#define offsetof(type, member) ((size_t)&(((type *)0)->member))
+
+/* Base type definitions */
+typedef unsigned char uchar;    /**< unsigned char type                 */
+typedef unsigned short ushort;  /**< unsigned short type                */
+typedef unsigned int uint;      /**< unsigned int type                  */
+typedef unsigned long ulong;    /**< unsigned long type                 */
+typedef char bool;              /**< boolean type                       */
+typedef unsigned long size_t;   /**< size type                          */
+
+ 
+
+/* Boolean type and constants */
+#define FALSE        0          /**< boolean false                      */
+#define TRUE         1          /**< boolean true                       */
+
+/* Universal return constants */
+#define OK        1             /**< system call ok                     */
+#define NULL      0             /**< null pointer for linked lists      */
+#define SYSERR   (-1)           /**< system call failed                 */
+#define EOF      (-2)           /**< End-of-file (usually from read)    */
+#define TIMEOUT  (-3)           /**< system call timed out              */
+#define NOMSG    (-4)           /**< no message to receive              */
+
+#endif                          /* _STDDEF_H_ */

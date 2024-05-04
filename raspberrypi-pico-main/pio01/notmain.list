@@ -1,0 +1,180 @@
+
+notmain.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <centry>:
+20000000:	e020      	b.n	20000044 <reset>
+20000002:	46c0      	nop			; (mov r8, r8)
+20000004:	20000045 	andcs	r0, r0, r5, asr #32
+20000008:	20000055 	andcs	r0, r0, r5, asr r0
+2000000c:	20000055 	andcs	r0, r0, r5, asr r0
+20000010:	20000055 	andcs	r0, r0, r5, asr r0
+20000014:	20000055 	andcs	r0, r0, r5, asr r0
+20000018:	20000055 	andcs	r0, r0, r5, asr r0
+2000001c:	20000055 	andcs	r0, r0, r5, asr r0
+20000020:	20000055 	andcs	r0, r0, r5, asr r0
+20000024:	20000055 	andcs	r0, r0, r5, asr r0
+20000028:	20000055 	andcs	r0, r0, r5, asr r0
+2000002c:	20000055 	andcs	r0, r0, r5, asr r0
+20000030:	20000055 	andcs	r0, r0, r5, asr r0
+20000034:	20000055 	andcs	r0, r0, r5, asr r0
+20000038:	20000055 	andcs	r0, r0, r5, asr r0
+2000003c:	20000055 	andcs	r0, r0, r5, asr r0
+20000040:	20000055 	andcs	r0, r0, r5, asr r0
+
+20000044 <reset>:
+20000044:	4904      	ldr	r1, [pc, #16]	; (20000058 <loop+0x4>)
+20000046:	4805      	ldr	r0, [pc, #20]	; (2000005c <loop+0x8>)
+20000048:	6008      	str	r0, [r1, #0]
+2000004a:	4805      	ldr	r0, [pc, #20]	; (20000060 <loop+0xc>)
+2000004c:	4685      	mov	sp, r0
+2000004e:	f000 f85f 	bl	20000110 <notmain>
+20000052:	e7ff      	b.n	20000054 <loop>
+
+20000054 <loop>:
+20000054:	e7fe      	b.n	20000054 <loop>
+20000056:	46c0      	nop			; (mov r8, r8)
+20000058:	e000ed08 	and	lr, r0, r8, lsl #26
+2000005c:	20000000 	andcs	r0, r0, r0
+20000060:	20002000 	andcs	r2, r0, r0
+20000064:	46c0      	nop			; (mov r8, r8)
+20000066:	46c0      	nop			; (mov r8, r8)
+20000068:	46c0      	nop			; (mov r8, r8)
+2000006a:	46c0      	nop			; (mov r8, r8)
+2000006c:	46c0      	nop			; (mov r8, r8)
+2000006e:	46c0      	nop			; (mov r8, r8)
+20000070:	46c0      	nop			; (mov r8, r8)
+20000072:	46c0      	nop			; (mov r8, r8)
+20000074:	46c0      	nop			; (mov r8, r8)
+20000076:	46c0      	nop			; (mov r8, r8)
+20000078:	46c0      	nop			; (mov r8, r8)
+2000007a:	46c0      	nop			; (mov r8, r8)
+2000007c:	46c0      	nop			; (mov r8, r8)
+2000007e:	46c0      	nop			; (mov r8, r8)
+	...
+
+20000100 <PUT32>:
+20000100:	6001      	str	r1, [r0, #0]
+20000102:	4770      	bx	lr
+
+20000104 <GET32>:
+20000104:	6800      	ldr	r0, [r0, #0]
+20000106:	4770      	bx	lr
+
+20000108 <DELAY>:
+20000108:	3801      	subs	r0, #1
+2000010a:	d1fd      	bne.n	20000108 <DELAY>
+2000010c:	4770      	bx	lr
+2000010e:	46c0      	nop			; (mov r8, r8)
+
+20000110 <notmain>:
+20000110:	b510      	push	{r4, lr}
+20000112:	2120      	movs	r1, #32
+20000114:	4823      	ldr	r0, [pc, #140]	; (200001a4 <notmain+0x94>)
+20000116:	f7ff fff3 	bl	20000100 <PUT32>
+2000011a:	2420      	movs	r4, #32
+2000011c:	4822      	ldr	r0, [pc, #136]	; (200001a8 <notmain+0x98>)
+2000011e:	f7ff fff1 	bl	20000104 <GET32>
+20000122:	4204      	tst	r4, r0
+20000124:	d0fa      	beq.n	2000011c <notmain+0xc>
+20000126:	2180      	movs	r1, #128	; 0x80
+20000128:	481e      	ldr	r0, [pc, #120]	; (200001a4 <notmain+0x94>)
+2000012a:	0049      	lsls	r1, r1, #1
+2000012c:	2480      	movs	r4, #128	; 0x80
+2000012e:	f7ff ffe7 	bl	20000100 <PUT32>
+20000132:	0064      	lsls	r4, r4, #1
+20000134:	481c      	ldr	r0, [pc, #112]	; (200001a8 <notmain+0x98>)
+20000136:	f7ff ffe5 	bl	20000104 <GET32>
+2000013a:	4220      	tst	r0, r4
+2000013c:	d0fa      	beq.n	20000134 <notmain+0x24>
+2000013e:	2180      	movs	r1, #128	; 0x80
+20000140:	4818      	ldr	r0, [pc, #96]	; (200001a4 <notmain+0x94>)
+20000142:	00c9      	lsls	r1, r1, #3
+20000144:	2480      	movs	r4, #128	; 0x80
+20000146:	f7ff ffdb 	bl	20000100 <PUT32>
+2000014a:	00e4      	lsls	r4, r4, #3
+2000014c:	4816      	ldr	r0, [pc, #88]	; (200001a8 <notmain+0x98>)
+2000014e:	f7ff ffd9 	bl	20000104 <GET32>
+20000152:	4220      	tst	r0, r4
+20000154:	d0fa      	beq.n	2000014c <notmain+0x3c>
+20000156:	4915      	ldr	r1, [pc, #84]	; (200001ac <notmain+0x9c>)
+20000158:	4815      	ldr	r0, [pc, #84]	; (200001b0 <notmain+0xa0>)
+2000015a:	f7ff ffd1 	bl	20000100 <PUT32>
+2000015e:	4915      	ldr	r1, [pc, #84]	; (200001b4 <notmain+0xa4>)
+20000160:	4815      	ldr	r0, [pc, #84]	; (200001b8 <notmain+0xa8>)
+20000162:	f7ff ffcd 	bl	20000100 <PUT32>
+20000166:	21fd      	movs	r1, #253	; 0xfd
+20000168:	4814      	ldr	r0, [pc, #80]	; (200001bc <notmain+0xac>)
+2000016a:	0209      	lsls	r1, r1, #8
+2000016c:	f7ff ffc8 	bl	20000100 <PUT32>
+20000170:	2101      	movs	r1, #1
+20000172:	4813      	ldr	r0, [pc, #76]	; (200001c0 <notmain+0xb0>)
+20000174:	f7ff ffc4 	bl	20000100 <PUT32>
+20000178:	4912      	ldr	r1, [pc, #72]	; (200001c4 <notmain+0xb4>)
+2000017a:	4813      	ldr	r0, [pc, #76]	; (200001c8 <notmain+0xb8>)
+2000017c:	f7ff ffc0 	bl	20000100 <PUT32>
+20000180:	4912      	ldr	r1, [pc, #72]	; (200001cc <notmain+0xbc>)
+20000182:	4813      	ldr	r0, [pc, #76]	; (200001d0 <notmain+0xc0>)
+20000184:	f7ff ffbc 	bl	20000100 <PUT32>
+20000188:	2110      	movs	r1, #16
+2000018a:	4812      	ldr	r0, [pc, #72]	; (200001d4 <notmain+0xc4>)
+2000018c:	f7ff ffb8 	bl	20000100 <PUT32>
+20000190:	2106      	movs	r1, #6
+20000192:	4811      	ldr	r0, [pc, #68]	; (200001d8 <notmain+0xc8>)
+20000194:	f7ff ffb4 	bl	20000100 <PUT32>
+20000198:	2101      	movs	r1, #1
+2000019a:	4810      	ldr	r0, [pc, #64]	; (200001dc <notmain+0xcc>)
+2000019c:	f7ff ffb0 	bl	20000100 <PUT32>
+200001a0:	e7fe      	b.n	200001a0 <notmain+0x90>
+200001a2:	46c0      	nop			; (mov r8, r8)
+200001a4:	4000f000 	andmi	pc, r0, r0
+200001a8:	4000c008 	andmi	ip, r0, r8
+200001ac:	0000e081 	andeq	lr, r0, r1, lsl #1
+200001b0:	50200048 	eorpl	r0, r0, r8, asr #32
+200001b4:	0000fe01 	andeq	pc, r0, r1, lsl #28
+200001b8:	5020004c 	eorpl	r0, r0, ip, asr #32
+200001bc:	50200050 	eorpl	r0, r0, r0, asr r0
+200001c0:	50200054 	eorpl	r0, r0, r4, asr r0
+200001c4:	ffff0000 			; <UNDEFINED> instruction: 0xffff0000
+200001c8:	502000c8 	eorpl	r0, r0, r8, asr #1
+200001cc:	04000320 	streq	r0, [r0], #-800	; 0xfffffce0
+200001d0:	502000dc 	ldrdpl	r0, [r0], -ip	; <UNPREDICTABLE>
+200001d4:	4001c068 	andmi	ip, r1, r8, rrx
+200001d8:	400140cc 	andmi	r4, r1, ip, asr #1
+200001dc:	50200000 	eorpl	r0, r0, r0
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00002c41 	andeq	r2, r0, r1, asr #24
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000022 	andeq	r0, r0, r2, lsr #32
+  10:	726f4305 	rsbvc	r4, pc, #335544320	; 0x14000000
+  14:	2d786574 	cfldr64cs	mvdx6, [r8, #-464]!	; 0xfffffe30
+  18:	0600304d 	streq	r3, [r0], -sp, asr #32
+  1c:	094d070c 	stmdbeq	sp, {r2, r3, r8, r9, sl}^
+  20:	14041201 	strne	r1, [r4], #-513	; 0xfffffdff
+  24:	17011501 	strne	r1, [r1, -r1, lsl #10]
+  28:	1a011803 	bne	4603c <centry-0x1ffb9fc4>
+  2c:	Address 0x0000002c is out of bounds.
+
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <centry-0x1ef2f2dc>
+   4:	35312820 	ldrcc	r2, [r1, #-2080]!	; 0xfffff7e0
+   8:	332e363a 			; <UNDEFINED> instruction: 0x332e363a
+   c:	732b312e 			; <UNDEFINED> instruction: 0x732b312e
+  10:	35326e76 	ldrcc	r6, [r2, #-3702]!	; 0xfffff18a
+  14:	39333033 	ldmdbcc	r3!, {r0, r1, r4, r5, ip, sp}
+  18:	7562312d 	strbvc	r3, [r2, #-301]!	; 0xfffffed3
+  1c:	31646c69 	cmncc	r4, r9, ror #24
+  20:	2e362029 	cdpcs	0, 3, cr2, cr6, cr9, {1}
+  24:	20312e33 	eorscs	r2, r1, r3, lsr lr
+  28:	37313032 			; <UNDEFINED> instruction: 0x37313032
+  2c:	30323630 	eorscc	r3, r2, r0, lsr r6
+	...

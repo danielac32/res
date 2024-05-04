@@ -1,0 +1,118 @@
+
+notmain.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+10000000 <PUT32-0xa>:
+10000000:	4805      	ldr	r0, [pc, #20]	; (10000018 <DELAY+0x6>)
+10000002:	4685      	mov	sp, r0
+10000004:	f000 f80a 	bl	1000001c <notmain>
+10000008:	e7fe      	b.n	10000008 <PUT32-0x2>
+
+1000000a <PUT32>:
+1000000a:	6001      	str	r1, [r0, #0]
+1000000c:	4770      	bx	lr
+
+1000000e <GET32>:
+1000000e:	6800      	ldr	r0, [r0, #0]
+10000010:	4770      	bx	lr
+
+10000012 <DELAY>:
+10000012:	3801      	subs	r0, #1
+10000014:	d1fd      	bne.n	10000012 <DELAY>
+10000016:	4770      	bx	lr
+10000018:	20001000 	andcs	r1, r0, r0
+
+1000001c <notmain>:
+1000001c:	b510      	push	{r4, lr}
+1000001e:	2120      	movs	r1, #32
+10000020:	4817      	ldr	r0, [pc, #92]	; (10000080 <notmain+0x64>)
+10000022:	f7ff fff2 	bl	1000000a <PUT32>
+10000026:	2420      	movs	r4, #32
+10000028:	4816      	ldr	r0, [pc, #88]	; (10000084 <notmain+0x68>)
+1000002a:	f7ff fff0 	bl	1000000e <GET32>
+1000002e:	4204      	tst	r4, r0
+10000030:	d0fa      	beq.n	10000028 <notmain+0xc>
+10000032:	2180      	movs	r1, #128	; 0x80
+10000034:	4814      	ldr	r0, [pc, #80]	; (10000088 <notmain+0x6c>)
+10000036:	0489      	lsls	r1, r1, #18
+10000038:	f7ff ffe7 	bl	1000000a <PUT32>
+1000003c:	2180      	movs	r1, #128	; 0x80
+1000003e:	4813      	ldr	r0, [pc, #76]	; (1000008c <notmain+0x70>)
+10000040:	0489      	lsls	r1, r1, #18
+10000042:	f7ff ffe2 	bl	1000000a <PUT32>
+10000046:	2105      	movs	r1, #5
+10000048:	4811      	ldr	r0, [pc, #68]	; (10000090 <notmain+0x74>)
+1000004a:	f7ff ffde 	bl	1000000a <PUT32>
+1000004e:	2180      	movs	r1, #128	; 0x80
+10000050:	4810      	ldr	r0, [pc, #64]	; (10000094 <notmain+0x78>)
+10000052:	0489      	lsls	r1, r1, #18
+10000054:	f7ff ffd9 	bl	1000000a <PUT32>
+10000058:	2180      	movs	r1, #128	; 0x80
+1000005a:	480f      	ldr	r0, [pc, #60]	; (10000098 <notmain+0x7c>)
+1000005c:	0489      	lsls	r1, r1, #18
+1000005e:	f7ff ffd4 	bl	1000000a <PUT32>
+10000062:	2080      	movs	r0, #128	; 0x80
+10000064:	0240      	lsls	r0, r0, #9
+10000066:	f7ff ffd4 	bl	10000012 <DELAY>
+1000006a:	2180      	movs	r1, #128	; 0x80
+1000006c:	4807      	ldr	r0, [pc, #28]	; (1000008c <notmain+0x70>)
+1000006e:	0489      	lsls	r1, r1, #18
+10000070:	f7ff ffcb 	bl	1000000a <PUT32>
+10000074:	2080      	movs	r0, #128	; 0x80
+10000076:	0240      	lsls	r0, r0, #9
+10000078:	f7ff ffcb 	bl	10000012 <DELAY>
+1000007c:	e7ec      	b.n	10000058 <notmain+0x3c>
+1000007e:	46c0      	nop			; (mov r8, r8)
+10000080:	4000f000 	andmi	pc, r0, r0
+10000084:	4000c008 	andmi	ip, r0, r8
+10000088:	d0000028 	andle	r0, r0, r8, lsr #32
+1000008c:	d0000018 	andle	r0, r0, r8, lsl r0
+10000090:	400140cc 	andmi	r4, r1, ip, asr #1
+10000094:	d0000024 	andle	r0, r0, r4, lsr #32
+10000098:	d0000014 	andle	r0, r0, r4, lsl r0
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00002c41 	andeq	r2, r0, r1, asr #24
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000022 	andeq	r0, r0, r2, lsr #32
+  10:	726f4305 	rsbvc	r4, pc, #335544320	; 0x14000000
+  14:	2d786574 	cfldr64cs	mvdx6, [r8, #-464]!	; 0xfffffe30
+  18:	0600304d 	streq	r3, [r0], -sp, asr #32
+  1c:	094d070c 	stmdbeq	sp, {r2, r3, r8, r9, sl}^
+  20:	14041201 	strne	r1, [r4], #-513	; 0xfffffdff
+  24:	17011501 	strne	r1, [r1, -r1, lsl #10]
+  28:	1a011803 	bne	4603c <PUT32-0xffb9fce>
+  2c:	Address 0x000000000000002c is out of bounds.
+
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <PUT32-0xef2f2e6>
+   4:	35312820 	ldrcc	r2, [r1, #-2080]!	; 0xfffff7e0
+   8:	322d393a 	eorcc	r3, sp, #950272	; 0xe8000
+   c:	2d393130 	ldfcss	f3, [r9, #-192]!	; 0xffffff40
+  10:	302d3471 	eorcc	r3, sp, r1, ror r4
+  14:	6e756275 	mrcvs	2, 3, r6, cr5, cr5, {3}
+  18:	29317574 	ldmdbcs	r1!, {r2, r4, r5, r6, r8, sl, ip, sp, lr}
+  1c:	322e3920 	eorcc	r3, lr, #32, 18	; 0x80000
+  20:	3220312e 	eorcc	r3, r0, #-2147483637	; 0x8000000b
+  24:	31393130 	teqcc	r9, r0, lsr r1
+  28:	20353230 	eorscs	r3, r5, r0, lsr r2
+  2c:	6c657228 	sfmvs	f7, 2, [r5], #-160	; 0xffffff60
+  30:	65736165 	ldrbvs	r6, [r3, #-357]!	; 0xfffffe9b
+  34:	415b2029 	cmpmi	fp, r9, lsr #32
+  38:	612f4d52 			; <UNDEFINED> instruction: 0x612f4d52
+  3c:	392d6d72 	pushcc	{r1, r4, r5, r6, r8, sl, fp, sp, lr}
+  40:	6172622d 	cmnvs	r2, sp, lsr #4
+  44:	2068636e 	rsbcs	r6, r8, lr, ror #6
+  48:	69766572 	ldmdbvs	r6!, {r1, r4, r5, r6, r8, sl, sp, lr}^
+  4c:	6e6f6973 			; <UNDEFINED> instruction: 0x6e6f6973
+  50:	37373220 	ldrcc	r3, [r7, -r0, lsr #4]!
+  54:	5d393935 			; <UNDEFINED> instruction: 0x5d393935
+	...

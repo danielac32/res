@@ -1,0 +1,363 @@
+
+notmain.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <centry>:
+20000000:	e020      	b.n	20000044 <reset>
+20000002:	46c0      	nop			; (mov r8, r8)
+20000004:	20000045 	andcs	r0, r0, r5, asr #32
+20000008:	20000055 	andcs	r0, r0, r5, asr r0
+2000000c:	20000055 	andcs	r0, r0, r5, asr r0
+20000010:	20000055 	andcs	r0, r0, r5, asr r0
+20000014:	20000055 	andcs	r0, r0, r5, asr r0
+20000018:	20000055 	andcs	r0, r0, r5, asr r0
+2000001c:	20000055 	andcs	r0, r0, r5, asr r0
+20000020:	20000055 	andcs	r0, r0, r5, asr r0
+20000024:	20000055 	andcs	r0, r0, r5, asr r0
+20000028:	20000055 	andcs	r0, r0, r5, asr r0
+2000002c:	20000055 	andcs	r0, r0, r5, asr r0
+20000030:	20000055 	andcs	r0, r0, r5, asr r0
+20000034:	20000055 	andcs	r0, r0, r5, asr r0
+20000038:	20000055 	andcs	r0, r0, r5, asr r0
+2000003c:	20000055 	andcs	r0, r0, r5, asr r0
+20000040:	20000055 	andcs	r0, r0, r5, asr r0
+
+20000044 <reset>:
+20000044:	4904      	ldr	r1, [pc, #16]	; (20000058 <loop+0x4>)
+20000046:	4805      	ldr	r0, [pc, #20]	; (2000005c <loop+0x8>)
+20000048:	6008      	str	r0, [r1, #0]
+2000004a:	4805      	ldr	r0, [pc, #20]	; (20000060 <loop+0xc>)
+2000004c:	4685      	mov	sp, r0
+2000004e:	f000 f8ab 	bl	200001a8 <notmain>
+20000052:	e7ff      	b.n	20000054 <loop>
+
+20000054 <loop>:
+20000054:	e7fe      	b.n	20000054 <loop>
+20000056:	46c0      	nop			; (mov r8, r8)
+20000058:	e000ed08 	and	lr, r0, r8, lsl #26
+2000005c:	20000000 	andcs	r0, r0, r0
+20000060:	20002000 	andcs	r2, r0, r0
+20000064:	46c0      	nop			; (mov r8, r8)
+20000066:	46c0      	nop			; (mov r8, r8)
+20000068:	46c0      	nop			; (mov r8, r8)
+2000006a:	46c0      	nop			; (mov r8, r8)
+2000006c:	46c0      	nop			; (mov r8, r8)
+2000006e:	46c0      	nop			; (mov r8, r8)
+20000070:	46c0      	nop			; (mov r8, r8)
+20000072:	46c0      	nop			; (mov r8, r8)
+20000074:	46c0      	nop			; (mov r8, r8)
+20000076:	46c0      	nop			; (mov r8, r8)
+20000078:	46c0      	nop			; (mov r8, r8)
+2000007a:	46c0      	nop			; (mov r8, r8)
+2000007c:	46c0      	nop			; (mov r8, r8)
+2000007e:	46c0      	nop			; (mov r8, r8)
+	...
+
+20000100 <PUT32>:
+20000100:	6001      	str	r1, [r0, #0]
+20000102:	4770      	bx	lr
+
+20000104 <GET32>:
+20000104:	6800      	ldr	r0, [r0, #0]
+20000106:	4770      	bx	lr
+
+20000108 <DELAY>:
+20000108:	3801      	subs	r0, #1
+2000010a:	d1fd      	bne.n	20000108 <DELAY>
+2000010c:	4770      	bx	lr
+2000010e:	46c0      	nop			; (mov r8, r8)
+
+20000110 <pio_fifo_write>:
+20000110:	b570      	push	{r4, r5, r6, lr}
+20000112:	2480      	movs	r4, #128	; 0x80
+20000114:	0005      	movs	r5, r0
+20000116:	0264      	lsls	r4, r4, #9
+20000118:	4804      	ldr	r0, [pc, #16]	; (2000012c <pio_fifo_write+0x1c>)
+2000011a:	f7ff fff3 	bl	20000104 <GET32>
+2000011e:	4220      	tst	r0, r4
+20000120:	d1fa      	bne.n	20000118 <pio_fifo_write+0x8>
+20000122:	0029      	movs	r1, r5
+20000124:	4802      	ldr	r0, [pc, #8]	; (20000130 <pio_fifo_write+0x20>)
+20000126:	f7ff ffeb 	bl	20000100 <PUT32>
+2000012a:	bd70      	pop	{r4, r5, r6, pc}
+2000012c:	50200004 	eorpl	r0, r0, r4
+20000130:	50200010 	eorpl	r0, r0, r0, lsl r0
+
+20000134 <nokia5110_byte>:
+20000134:	b5f0      	push	{r4, r5, r6, r7, lr}
+20000136:	46de      	mov	lr, fp
+20000138:	4657      	mov	r7, sl
+2000013a:	464e      	mov	r6, r9
+2000013c:	4645      	mov	r5, r8
+2000013e:	2303      	movs	r3, #3
+20000140:	b5e0      	push	{r5, r6, r7, lr}
+20000142:	0087      	lsls	r7, r0, #2
+20000144:	433b      	orrs	r3, r7
+20000146:	b083      	sub	sp, #12
+20000148:	0018      	movs	r0, r3
+2000014a:	468a      	mov	sl, r1
+2000014c:	9301      	str	r3, [sp, #4]
+2000014e:	f7ff ffdf 	bl	20000110 <pio_fifo_write>
+20000152:	2301      	movs	r3, #1
+20000154:	433b      	orrs	r3, r7
+20000156:	0018      	movs	r0, r3
+20000158:	469b      	mov	fp, r3
+2000015a:	f7ff ffd9 	bl	20000110 <pio_fifo_write>
+2000015e:	2301      	movs	r3, #1
+20000160:	4699      	mov	r9, r3
+20000162:	3310      	adds	r3, #16
+20000164:	2608      	movs	r6, #8
+20000166:	2580      	movs	r5, #128	; 0x80
+20000168:	4698      	mov	r8, r3
+2000016a:	4654      	mov	r4, sl
+2000016c:	402c      	ands	r4, r5
+2000016e:	1e60      	subs	r0, r4, #1
+20000170:	4184      	sbcs	r4, r0
+20000172:	4648      	mov	r0, r9
+20000174:	00e4      	lsls	r4, r4, #3
+20000176:	433c      	orrs	r4, r7
+20000178:	4320      	orrs	r0, r4
+2000017a:	f7ff ffc9 	bl	20000110 <pio_fifo_write>
+2000017e:	4640      	mov	r0, r8
+20000180:	3e01      	subs	r6, #1
+20000182:	4320      	orrs	r0, r4
+20000184:	f7ff ffc4 	bl	20000110 <pio_fifo_write>
+20000188:	086d      	lsrs	r5, r5, #1
+2000018a:	2e00      	cmp	r6, #0
+2000018c:	d1ed      	bne.n	2000016a <nokia5110_byte+0x36>
+2000018e:	4658      	mov	r0, fp
+20000190:	f7ff ffbe 	bl	20000110 <pio_fifo_write>
+20000194:	9801      	ldr	r0, [sp, #4]
+20000196:	f7ff ffbb 	bl	20000110 <pio_fifo_write>
+2000019a:	b003      	add	sp, #12
+2000019c:	bc3c      	pop	{r2, r3, r4, r5}
+2000019e:	4690      	mov	r8, r2
+200001a0:	4699      	mov	r9, r3
+200001a2:	46a2      	mov	sl, r4
+200001a4:	46ab      	mov	fp, r5
+200001a6:	bdf0      	pop	{r4, r5, r6, r7, pc}
+
+200001a8 <notmain>:
+200001a8:	b510      	push	{r4, lr}
+200001aa:	2100      	movs	r1, #0
+200001ac:	4865      	ldr	r0, [pc, #404]	; (20000344 <notmain+0x19c>)
+200001ae:	f7ff ffa7 	bl	20000100 <PUT32>
+200001b2:	21aa      	movs	r1, #170	; 0xaa
+200001b4:	4864      	ldr	r0, [pc, #400]	; (20000348 <notmain+0x1a0>)
+200001b6:	0109      	lsls	r1, r1, #4
+200001b8:	f7ff ffa2 	bl	20000100 <PUT32>
+200001bc:	212f      	movs	r1, #47	; 0x2f
+200001be:	4863      	ldr	r0, [pc, #396]	; (2000034c <notmain+0x1a4>)
+200001c0:	f7ff ff9e 	bl	20000100 <PUT32>
+200001c4:	4962      	ldr	r1, [pc, #392]	; (20000350 <notmain+0x1a8>)
+200001c6:	4863      	ldr	r0, [pc, #396]	; (20000354 <notmain+0x1ac>)
+200001c8:	f7ff ff9a 	bl	20000100 <PUT32>
+200001cc:	4862      	ldr	r0, [pc, #392]	; (20000358 <notmain+0x1b0>)
+200001ce:	f7ff ff99 	bl	20000104 <GET32>
+200001d2:	2800      	cmp	r0, #0
+200001d4:	dafa      	bge.n	200001cc <notmain+0x24>
+200001d6:	2102      	movs	r1, #2
+200001d8:	4860      	ldr	r0, [pc, #384]	; (2000035c <notmain+0x1b4>)
+200001da:	f7ff ff91 	bl	20000100 <PUT32>
+200001de:	2100      	movs	r1, #0
+200001e0:	485f      	ldr	r0, [pc, #380]	; (20000360 <notmain+0x1b8>)
+200001e2:	f7ff ff8d 	bl	20000100 <PUT32>
+200001e6:	2188      	movs	r1, #136	; 0x88
+200001e8:	485e      	ldr	r0, [pc, #376]	; (20000364 <notmain+0x1bc>)
+200001ea:	0109      	lsls	r1, r1, #4
+200001ec:	f7ff ff88 	bl	20000100 <PUT32>
+200001f0:	2120      	movs	r1, #32
+200001f2:	485d      	ldr	r0, [pc, #372]	; (20000368 <notmain+0x1c0>)
+200001f4:	f7ff ff84 	bl	20000100 <PUT32>
+200001f8:	2420      	movs	r4, #32
+200001fa:	485c      	ldr	r0, [pc, #368]	; (2000036c <notmain+0x1c4>)
+200001fc:	f7ff ff82 	bl	20000104 <GET32>
+20000200:	4204      	tst	r4, r0
+20000202:	d0fa      	beq.n	200001fa <notmain+0x52>
+20000204:	2180      	movs	r1, #128	; 0x80
+20000206:	4858      	ldr	r0, [pc, #352]	; (20000368 <notmain+0x1c0>)
+20000208:	0049      	lsls	r1, r1, #1
+2000020a:	2480      	movs	r4, #128	; 0x80
+2000020c:	f7ff ff78 	bl	20000100 <PUT32>
+20000210:	0064      	lsls	r4, r4, #1
+20000212:	4856      	ldr	r0, [pc, #344]	; (2000036c <notmain+0x1c4>)
+20000214:	f7ff ff76 	bl	20000104 <GET32>
+20000218:	4220      	tst	r0, r4
+2000021a:	d0fa      	beq.n	20000212 <notmain+0x6a>
+2000021c:	2180      	movs	r1, #128	; 0x80
+2000021e:	4852      	ldr	r0, [pc, #328]	; (20000368 <notmain+0x1c0>)
+20000220:	00c9      	lsls	r1, r1, #3
+20000222:	2480      	movs	r4, #128	; 0x80
+20000224:	f7ff ff6c 	bl	20000100 <PUT32>
+20000228:	00e4      	lsls	r4, r4, #3
+2000022a:	4850      	ldr	r0, [pc, #320]	; (2000036c <notmain+0x1c4>)
+2000022c:	f7ff ff6a 	bl	20000104 <GET32>
+20000230:	4220      	tst	r0, r4
+20000232:	d0fa      	beq.n	2000022a <notmain+0x82>
+20000234:	494e      	ldr	r1, [pc, #312]	; (20000370 <notmain+0x1c8>)
+20000236:	484f      	ldr	r0, [pc, #316]	; (20000374 <notmain+0x1cc>)
+20000238:	f7ff ff62 	bl	20000100 <PUT32>
+2000023c:	494e      	ldr	r1, [pc, #312]	; (20000378 <notmain+0x1d0>)
+2000023e:	484f      	ldr	r0, [pc, #316]	; (2000037c <notmain+0x1d4>)
+20000240:	f7ff ff5e 	bl	20000100 <PUT32>
+20000244:	494e      	ldr	r1, [pc, #312]	; (20000380 <notmain+0x1d8>)
+20000246:	484f      	ldr	r0, [pc, #316]	; (20000384 <notmain+0x1dc>)
+20000248:	f7ff ff5a 	bl	20000100 <PUT32>
+2000024c:	2101      	movs	r1, #1
+2000024e:	484e      	ldr	r0, [pc, #312]	; (20000388 <notmain+0x1e0>)
+20000250:	f7ff ff56 	bl	20000100 <PUT32>
+20000254:	2180      	movs	r1, #128	; 0x80
+20000256:	484d      	ldr	r0, [pc, #308]	; (2000038c <notmain+0x1e4>)
+20000258:	02c9      	lsls	r1, r1, #11
+2000025a:	f7ff ff51 	bl	20000100 <PUT32>
+2000025e:	494c      	ldr	r1, [pc, #304]	; (20000390 <notmain+0x1e8>)
+20000260:	484c      	ldr	r0, [pc, #304]	; (20000394 <notmain+0x1ec>)
+20000262:	f7ff ff4d 	bl	20000100 <PUT32>
+20000266:	2106      	movs	r1, #6
+20000268:	484b      	ldr	r0, [pc, #300]	; (20000398 <notmain+0x1f0>)
+2000026a:	f7ff ff49 	bl	20000100 <PUT32>
+2000026e:	2106      	movs	r1, #6
+20000270:	484a      	ldr	r0, [pc, #296]	; (2000039c <notmain+0x1f4>)
+20000272:	f7ff ff45 	bl	20000100 <PUT32>
+20000276:	2106      	movs	r1, #6
+20000278:	4849      	ldr	r0, [pc, #292]	; (200003a0 <notmain+0x1f8>)
+2000027a:	f7ff ff41 	bl	20000100 <PUT32>
+2000027e:	2106      	movs	r1, #6
+20000280:	4848      	ldr	r0, [pc, #288]	; (200003a4 <notmain+0x1fc>)
+20000282:	f7ff ff3d 	bl	20000100 <PUT32>
+20000286:	2106      	movs	r1, #6
+20000288:	4847      	ldr	r0, [pc, #284]	; (200003a8 <notmain+0x200>)
+2000028a:	f7ff ff39 	bl	20000100 <PUT32>
+2000028e:	2101      	movs	r1, #1
+20000290:	4846      	ldr	r0, [pc, #280]	; (200003ac <notmain+0x204>)
+20000292:	f7ff ff35 	bl	20000100 <PUT32>
+20000296:	2003      	movs	r0, #3
+20000298:	f7ff ff3a 	bl	20000110 <pio_fifo_write>
+2000029c:	2003      	movs	r0, #3
+2000029e:	f7ff ff37 	bl	20000110 <pio_fifo_write>
+200002a2:	2003      	movs	r0, #3
+200002a4:	f7ff ff34 	bl	20000110 <pio_fifo_write>
+200002a8:	2002      	movs	r0, #2
+200002aa:	f7ff ff31 	bl	20000110 <pio_fifo_write>
+200002ae:	2002      	movs	r0, #2
+200002b0:	f7ff ff2e 	bl	20000110 <pio_fifo_write>
+200002b4:	2002      	movs	r0, #2
+200002b6:	f7ff ff2b 	bl	20000110 <pio_fifo_write>
+200002ba:	2003      	movs	r0, #3
+200002bc:	f7ff ff28 	bl	20000110 <pio_fifo_write>
+200002c0:	2003      	movs	r0, #3
+200002c2:	f7ff ff25 	bl	20000110 <pio_fifo_write>
+200002c6:	2003      	movs	r0, #3
+200002c8:	f7ff ff22 	bl	20000110 <pio_fifo_write>
+200002cc:	2121      	movs	r1, #33	; 0x21
+200002ce:	2000      	movs	r0, #0
+200002d0:	f7ff ff30 	bl	20000134 <nokia5110_byte>
+200002d4:	21bf      	movs	r1, #191	; 0xbf
+200002d6:	2000      	movs	r0, #0
+200002d8:	f7ff ff2c 	bl	20000134 <nokia5110_byte>
+200002dc:	2104      	movs	r1, #4
+200002de:	2000      	movs	r0, #0
+200002e0:	f7ff ff28 	bl	20000134 <nokia5110_byte>
+200002e4:	2114      	movs	r1, #20
+200002e6:	2000      	movs	r0, #0
+200002e8:	f7ff ff24 	bl	20000134 <nokia5110_byte>
+200002ec:	2120      	movs	r1, #32
+200002ee:	2000      	movs	r0, #0
+200002f0:	f7ff ff20 	bl	20000134 <nokia5110_byte>
+200002f4:	210c      	movs	r1, #12
+200002f6:	2000      	movs	r0, #0
+200002f8:	f7ff ff1c 	bl	20000134 <nokia5110_byte>
+200002fc:	2180      	movs	r1, #128	; 0x80
+200002fe:	2000      	movs	r0, #0
+20000300:	f7ff ff18 	bl	20000134 <nokia5110_byte>
+20000304:	2140      	movs	r1, #64	; 0x40
+20000306:	2000      	movs	r0, #0
+20000308:	f7ff ff14 	bl	20000134 <nokia5110_byte>
+2000030c:	2400      	movs	r4, #0
+2000030e:	0021      	movs	r1, r4
+20000310:	2001      	movs	r0, #1
+20000312:	3401      	adds	r4, #1
+20000314:	f7ff ff0e 	bl	20000134 <nokia5110_byte>
+20000318:	2c68      	cmp	r4, #104	; 0x68
+2000031a:	d1f8      	bne.n	2000030e <notmain+0x166>
+2000031c:	3c04      	subs	r4, #4
+2000031e:	2105      	movs	r1, #5
+20000320:	2001      	movs	r0, #1
+20000322:	3c01      	subs	r4, #1
+20000324:	f7ff ff06 	bl	20000134 <nokia5110_byte>
+20000328:	2c00      	cmp	r4, #0
+2000032a:	d1f8      	bne.n	2000031e <notmain+0x176>
+2000032c:	342d      	adds	r4, #45	; 0x2d
+2000032e:	34ff      	adds	r4, #255	; 0xff
+20000330:	2100      	movs	r1, #0
+20000332:	2001      	movs	r0, #1
+20000334:	3c01      	subs	r4, #1
+20000336:	f7ff fefd 	bl	20000134 <nokia5110_byte>
+2000033a:	2c00      	cmp	r4, #0
+2000033c:	d1f8      	bne.n	20000330 <notmain+0x188>
+2000033e:	2000      	movs	r0, #0
+20000340:	bd10      	pop	{r4, pc}
+20000342:	46c0      	nop			; (mov r8, r8)
+20000344:	40008078 	andmi	r8, r0, r8, ror r0
+20000348:	40024000 	andmi	r4, r2, r0
+2000034c:	4002400c 	andmi	r4, r2, ip
+20000350:	00fab000 	rscseq	fp, sl, r0
+20000354:	40026000 	andmi	r6, r2, r0
+20000358:	40024004 	andmi	r4, r2, r4
+2000035c:	40008030 	andmi	r8, r0, r0, lsr r0
+20000360:	4000803c 	andmi	r8, r0, ip, lsr r0
+20000364:	40008048 	andmi	r8, r0, r8, asr #32
+20000368:	4000f000 	andmi	pc, r0, r0
+2000036c:	4000c008 	andmi	ip, r0, r8
+20000370:	0000e09f 	muleq	r0, pc, r0	; <UNPREDICTABLE>
+20000374:	50200048 	eorpl	r0, r0, r8, asr #32
+20000378:	000080a0 	andeq	r8, r0, r0, lsr #1
+2000037c:	5020004c 	eorpl	r0, r0, ip, asr #32
+20000380:	00006005 	andeq	r6, r0, r5
+20000384:	50200050 	eorpl	r0, r0, r0, asr r0
+20000388:	50200054 	eorpl	r0, r0, r4, asr r0
+2000038c:	502000c8 	eorpl	r0, r0, r8, asr #1
+20000390:	14500042 	ldrbne	r0, [r0], #-66	; 0xffffffbe
+20000394:	502000dc 	ldrdpl	r0, [r0], -ip	; <UNPREDICTABLE>
+20000398:	40014014 	andmi	r4, r1, r4, lsl r0
+2000039c:	4001401c 	andmi	r4, r1, ip, lsl r0
+200003a0:	40014024 	andmi	r4, r1, r4, lsr #32
+200003a4:	4001402c 	andmi	r4, r1, ip, lsr #32
+200003a8:	40014034 	andmi	r4, r1, r4, lsr r0
+200003ac:	50200000 	eorpl	r0, r0, r0
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00002c41 	andeq	r2, r0, r1, asr #24
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000022 	andeq	r0, r0, r2, lsr #32
+  10:	726f4305 	rsbvc	r4, pc, #335544320	; 0x14000000
+  14:	2d786574 	cfldr64cs	mvdx6, [r8, #-464]!	; 0xfffffe30
+  18:	0600304d 	streq	r3, [r0], -sp, asr #32
+  1c:	094d070c 	stmdbeq	sp, {r2, r3, r8, r9, sl}^
+  20:	14041201 	strne	r1, [r4], #-513	; 0xfffffdff
+  24:	17011501 	strne	r1, [r1, -r1, lsl #10]
+  28:	1a011803 	bne	4603c <centry-0x1ffb9fc4>
+  2c:	Address 0x0000002c is out of bounds.
+
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <centry-0x1ef2f2dc>
+   4:	35312820 	ldrcc	r2, [r1, #-2080]!	; 0xfffff7e0
+   8:	332e363a 			; <UNDEFINED> instruction: 0x332e363a
+   c:	732b312e 			; <UNDEFINED> instruction: 0x732b312e
+  10:	35326e76 	ldrcc	r6, [r2, #-3702]!	; 0xfffff18a
+  14:	39333033 	ldmdbcc	r3!, {r0, r1, r4, r5, ip, sp}
+  18:	7562312d 	strbvc	r3, [r2, #-301]!	; 0xfffffed3
+  1c:	31646c69 	cmncc	r4, r9, ror #24
+  20:	2e362029 	cdpcs	0, 3, cr2, cr6, cr9, {1}
+  24:	20312e33 	eorscs	r2, r1, r3, lsr lr
+  28:	37313032 			; <UNDEFINED> instruction: 0x37313032
+  2c:	30323630 	eorscc	r3, r2, r0, lsr r6
+	...

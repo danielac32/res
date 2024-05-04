@@ -1,0 +1,11 @@
+10 a=0;
+20 pinmode 13,0;
+30 print "daniel",2;
+32 println;
+40 print 1234;
+50 println;
+60 dwrite 12,1;
+70 delay_ms 100;
+80 dwrite 12,0;
+90 delay_ms 100;
+100 goto 40;
